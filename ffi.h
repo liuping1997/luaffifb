@@ -42,8 +42,8 @@ extern "C" {
 #include <sys/mman.h>
 #endif
 
-#include <complex.h>
-#define HAVE_COMPLEX
+/*#include <complex.h>*/
+//#define HAVE_COMPLEX
 #define HAVE_LONG_DOUBLE
 
 #ifndef NDEBUG
@@ -381,7 +381,7 @@ static complex_double mk_complex_double(double real, double imag) {
     complex_double ret = { real, imag };
     return ret;
 }
-static complex_float mk_complex_float(double real, double imag) {
+static complex_float mk_complex_float(float real, float imag) {
     complex_float ret = { real, imag };
     return ret;
 }

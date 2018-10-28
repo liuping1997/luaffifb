@@ -5,11 +5,11 @@
 @if "%1"=="debug-5.1" goto :DEBUG_5_1
 
 rem These should not have quotes
-@set LUA_INCLUDE=Z:\c\lua-5.2.0\src
-@set LUA_LIB=Z:\c\lua-5.2.0\lua5.2.lib
-@set LUA_EXE=Z:\c\lua-5.2.0\lua.exe
+@set LUA_INCLUDE=C:/SDK/lua/
+@set LUA_LIB=C:/SDK/lua/lua5.4.lib
+@set LUA_EXE=C:/SDK/lua/lua.exe
 rem This the name of the dll that can be handed to LoadLibrary. This should not have a path.
-@set LUA_DLL=lua5.2.dll
+@set LUA_DLL=lua5.4.dll
 @goto :DEBUG
 
 :DEBUG_5_1
@@ -19,7 +19,7 @@ rem This the name of the dll that can be handed to LoadLibrary. This should not 
 @set LUA_DLL=lua5.1.dll
 
 :DEBUG
-@set DO_CL=cl.exe /nologo /c /MDd /FC /Zi /Od /W3 /WX /D_CRT_SECURE_NO_DEPRECATE /DLUA_FFI_BUILD_AS_DLL /I"msvc"
+@set DO_CL=cl.exe /nologo /c /MDd /FC /Zi /Od /W3 /WX- /D_CRT_SECURE_NO_DEPRECATE /DLUA_FFI_BUILD_AS_DLL /std:c++latest /I"msvc"
 @set DO_LINK=link /nologo /debug
 @set DO_MT=mt /nologo
 
@@ -31,7 +31,7 @@ rem This the name of the dll that can be handed to LoadLibrary. This should not 
 @if "%1"=="test-release" goto :RELEASE
 
 :RELEASE
-@set DO_CL=cl.exe /nologo /c /MD /Ox /W3 /Zi /WX /D_CRT_SECURE_NO_DEPRECATE /DLUA_FFI_BUILD_AS_DLL /I"msvc"
+@set DO_CL=cl.exe /nologo /c /MD /Ox /W3 /Zi /WX- /D_CRT_SECURE_NO_DEPRECATE /DLUA_FFI_BUILD_AS_DLL /std:c++latest /I"msvc"
 @set DO_LINK=link.exe /nologo /debug
 @set DO_MT=mt.exe /nologo
 @goto :COMPILE
@@ -41,7 +41,7 @@ rem This the name of the dll that can be handed to LoadLibrary. This should not 
 "%LUA_EXE%" dynasm\dynasm.lua -LNE -D X64 -o call_x64.h call_x86.dasc
 "%LUA_EXE%" dynasm\dynasm.lua -LNE -D X64 -D X64WIN -o call_x64win.h call_x86.dasc
 "%LUA_EXE%" dynasm\dynasm.lua -LNE -o call_arm.h call_arm.dasc
-%DO_CL% /I"." /I"%LUA_INCLUDE%" /DLUA_DLL_NAME="%LUA_DLL%" call.c ctype.c ffi.c parser.c
+%DO_CL% /I"./" /I"%LUA_INCLUDE%" /DLUA_DLL_NAME="%LUA_DLL%" call.c ctype.c ffi.c parser.c
 %DO_LINK% /DLL /OUT:ffi.dll "%LUA_LIB%" *.obj
 if exist ffi.dll.manifest^
     %DO_MT% -manifest ffi.dll.manifest -outputresource:"ffi.dll;2"

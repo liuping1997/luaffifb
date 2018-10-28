@@ -20,7 +20,7 @@
 #endif
 
 #include <complex.h>
-#define HAVE_COMPLEX
+//#define HAVE_COMPLEX
 
 #ifdef __cplusplus
 # define EXTERN_C extern "C"
@@ -90,7 +90,7 @@ ADD(uint64_t, add_u64)
 ADD(double, add_d)
 ADD(float, add_f)
 #ifdef HAVE_COMPLEX
-ADD(double complex, add_dc)
+ADD(double omplex, add_dc)
 ADD(float complex, add_fc)
 #endif
 
